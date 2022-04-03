@@ -16,8 +16,6 @@
 |       GrpcPostLargePayloadAsync |               200 |                 20 | 215.0 ms | 4.17 ms |  3.90 ms |
 
 
-### Read More - [https://medium.com/@EmperorRXF/evaluating-performance-of-rest-vs-grpc](https://medium.com/@EmperorRXF/evaluating-performance-of-rest-vs-grpc-1b8bdf0b22da?source=https://github.com/EmperorRXF/RESTvsGRPC)
-
 # RESTvsGRPC
 Evaluating Performance of REST vs. gRPC
 
