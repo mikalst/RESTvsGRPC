@@ -17,6 +17,7 @@ namespace GrpcAPI
 
         public override async Task GetLargePayload(EmptyRequest request, IServerStreamWriter<MeteoriteLanding> responseStream, ServerCallContext context)
         {
+            MeteoriteLandingData.Size = (MeteoriteLandingDataSize)request.Size;
             foreach (var meteoriteLanding in MeteoriteLandingData.GrpcMeteoriteLandings)
             {
                 await responseStream.WriteAsync(meteoriteLanding);
@@ -25,6 +26,7 @@ namespace GrpcAPI
 
         public override Task<MeteoriteLandingList> GetLargePayloadAsList(EmptyRequest request, ServerCallContext context)
         {
+            MeteoriteLandingData.Size = (MeteoriteLandingDataSize)request.Size;
             return Task.FromResult(MeteoriteLandingData.GrpcMeteoriteLandingList);
         }
 

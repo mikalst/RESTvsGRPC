@@ -9,25 +9,17 @@ namespace RestAPI.Controllers
     [ApiController]
     public class MeteoriteLandingsController : ControllerBase
     {
-        // GET api/values
-        [HttpGet]
-        public ActionResult<string> Get()
+        [HttpGet("Payload/{size}")]
+        public IEnumerable<MeteoriteLanding> GetLargePayloadAsync([FromRoute] int size)
         {
-            return "API Version 1.0";
-        }
-
-        // GET api/values/LargePayload
-        [HttpGet]
-        [Route("LargePayload")]
-        public ActionResult<IEnumerable<MeteoriteLanding>> GetLargePayloadAsync()
-        {
+            MeteoriteLandingData.Size = (MeteoriteLandingDataSize)size;
             return MeteoriteLandingData.RestMeteoriteLandings;
         }
 
         // POST api/values/LargePayload
         [HttpPost]
-        [Route("LargePayload")]
-        public string PostLargePayload([FromBody] IEnumerable<MeteoriteLanding> meteoriteLandings)
+        [Route("Payload")]
+        public string PostPayload([FromBody] IEnumerable<MeteoriteLanding> meteoriteLandings)
         {
             return "SUCCESS";
         }

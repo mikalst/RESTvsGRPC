@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp2.2</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
@@ -19,7 +19,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Include="Data/MeteoriteLandings.json" />  
+    <EmbeddedResource Include="Data/MeteoriteLandingsSmall.json" />  
+    <EmbeddedResource Include="Data/MeteoriteLandingsMedium.json" />  
+    <EmbeddedResource Include="Data/MeteoriteLandingsLarge.json" />  
   </ItemGroup>
 
 </Project>

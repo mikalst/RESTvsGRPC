@@ -14,6 +14,7 @@ service MeteoriteLandingsService {
 }
 
 message EmptyRequest {
+	int32 size = 1;
 }
 
 message StatusResponse {

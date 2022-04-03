@@ -1,4 +1,5 @@
 ﻿using Grpc.Core;
+using ModelLibrary.Data;
 using ModelLibrary.GRPC;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -10,12 +11,14 @@ namespace RESTvsGRPC
     {
         private readonly Channel channel;
         private readonly MeteoriteLandingsServiceClient client;
+        public MeteoriteLandingDataSize Size { get; set; } = MeteoriteLandingDataSize.Medium;
 
         public GRPCClient()
         {
             channel = new Channel("localhost:6000", ChannelCredentials.Insecure);
             client = new MeteoriteLandingsServiceClient(channel);
         }
+
 
         public async Task<string> GetSmallPayloadAsync()
         {
@@ -37,14 +40,21 @@ namespace RESTvsGRPC
             return meteoriteLandings;
         }
 
-        public async Task<IList<MeteoriteLanding>> GetLargePayloadAsListAsync()
+        public async Task<IList<MeteoriteLanding>> GetPayloadAsListAsync()
         {
-            return (await client.GetLargePayloadAsListAsync(new EmptyRequest())).MeteoriteLandings;
+            return (
+                await client.GetLargePayloadAsListAsync(
+                    new EmptyRequest()
+                    {
+                        Size = (int)Size
+                    }
+                )
+            ).MeteoriteLandings;
         }
 
-        public async Task<string> PostLargePayloadAsync(MeteoriteLandingList meteoriteLandings)
+        public async Task PostPayloadAsync(MeteoriteLandingList meteoriteLandings)
         {
-            return (await client.PostLargePayloadAsync(meteoriteLandings)).Status;
+            await client.PostLargePayloadAsync(meteoriteLandings);
         }
     }
 }

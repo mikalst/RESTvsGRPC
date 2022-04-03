@@ -12,8 +12,11 @@ namespace RESTvsGRPC
     [HtmlExporter]
     public class BenchmarkHarness
     {
-        [Params(100, 200)]
-        public int IterationCount;
+        [Params(200)]
+        public int IterationCountGet;
+        [Params(20)]
+        public int IterationCountPost;
+
 
         readonly RESTClient restClient = new RESTClient();
         readonly GRPCClient grpcClient = new GRPCClient();
@@ -21,63 +24,129 @@ namespace RESTvsGRPC
         [Benchmark]
         public async Task RestGetSmallPayloadAsync()
         {
-            for (int i = 0; i < IterationCount; i++)
+            restClient.Size = MeteoriteLandingDataSize.Small;
+            for (int i = 0; i < IterationCountGet; i++)
             {
-                await restClient.GetSmallPayloadAsync();
+                await restClient.GetPayloadAsync();
+            }
+        }
+        
+        [Benchmark]
+        public async Task RestGetMediumPayloadAsync()
+        {
+            restClient.Size = MeteoriteLandingDataSize.Medium;
+            for (int i = 0; i < IterationCountGet; i++)
+            {
+                await restClient.GetPayloadAsync();
             }
         }
 
         [Benchmark]
         public async Task RestGetLargePayloadAsync()
         {
-            for (int i = 0; i < IterationCount; i++)
+            restClient.Size = MeteoriteLandingDataSize.Large;
+            for (int i = 0; i < IterationCountGet; i++)
             {
-                await restClient.GetLargePayloadAsync();
+                await restClient.GetPayloadAsync();
+            }
+        }
+        
+        [Benchmark]
+        public async Task RestPostSmallPayloadAsync()
+        {
+            restClient.Size = MeteoriteLandingDataSize.Small;
+            for (int i = 0; i < IterationCountPost; i++)
+            {
+                await restClient.PostPayloadAsync(MeteoriteLandingData.RestMeteoriteLandings);
+            }
+        }
+
+        [Benchmark]
+        public async Task RestPostMediumPayloadAsync()
+        {
+            restClient.Size = MeteoriteLandingDataSize.Medium;
+            for (int i = 0; i < IterationCountPost; i++)
+            {
+                await restClient.PostPayloadAsync(MeteoriteLandingData.RestMeteoriteLandings);
             }
         }
 
         [Benchmark]
         public async Task RestPostLargePayloadAsync()
         {
-            for (int i = 0; i < IterationCount; i++)
+            restClient.Size = MeteoriteLandingDataSize.Large;
+            for (int i = 0; i < IterationCountPost; i++)
             {
-                await restClient.PostLargePayloadAsync(MeteoriteLandingData.RestMeteoriteLandings);
+                await restClient.PostPayloadAsync(MeteoriteLandingData.RestMeteoriteLandings);
+            }
+        }
+
+        // [Benchmark]
+        // public async Task GrpcStreamLargePayloadAsync()
+        // {
+        //     for (int i = 0; i < IterationCount; i++)
+        //     {
+        //         await grpcClient.StreamLargePayloadAsync();
+        //     }
+        // }
+
+        [Benchmark]
+        public async Task GrpcGetSmallPayloadAsListAsync()
+        {
+            grpcClient.Size = MeteoriteLandingDataSize.Small;
+            for (int i = 0; i < IterationCountGet; i++)
+            {
+                await grpcClient.GetPayloadAsListAsync();
             }
         }
 
         [Benchmark]
-        public async Task GrpcGetSmallPayloadAsync()
+        public async Task GrpcGetMediumPayloadAsListAsync()
         {
-            for (int i = 0; i < IterationCount; i++)
+            grpcClient.Size = MeteoriteLandingDataSize.Medium;
+            for (int i = 0; i < IterationCountGet; i++)
             {
-                await grpcClient.GetSmallPayloadAsync();
-            }
-        }
-
-        [Benchmark]
-        public async Task GrpcStreamLargePayloadAsync()
-        {
-            for (int i = 0; i < IterationCount; i++)
-            {
-                await grpcClient.StreamLargePayloadAsync();
+                await grpcClient.GetPayloadAsListAsync();
             }
         }
 
         [Benchmark]
         public async Task GrpcGetLargePayloadAsListAsync()
         {
-            for (int i = 0; i < IterationCount; i++)
+            grpcClient.Size = MeteoriteLandingDataSize.Large;
+            for (int i = 0; i < IterationCountGet; i++)
             {
-                await grpcClient.GetLargePayloadAsListAsync();
+                await grpcClient.GetPayloadAsListAsync();
             }
         }
 
         [Benchmark]
+        public async Task GrpcPostSmallPayloadAsync()
+        {
+            grpcClient.Size = MeteoriteLandingDataSize.Small;
+            for (int i = 0; i < IterationCountPost; i++)
+            {
+                await grpcClient.PostPayloadAsync(MeteoriteLandingData.GrpcMeteoriteLandingList);
+            }
+        }
+
+        [Benchmark]
+        public async Task GrpcPostMediumPayloadAsync()
+        {
+            grpcClient.Size = MeteoriteLandingDataSize.Medium;
+            for (int i = 0; i < IterationCountPost; i++)
+            {
+                await grpcClient.PostPayloadAsync(MeteoriteLandingData.GrpcMeteoriteLandingList);
+            }
+        }
+        
+        [Benchmark]
         public async Task GrpcPostLargePayloadAsync()
         {
-            for (int i = 0; i < IterationCount; i++)
+            grpcClient.Size = MeteoriteLandingDataSize.Large;
+            for (int i = 0; i < IterationCountPost; i++)
             {
-                await grpcClient.PostLargePayloadAsync(MeteoriteLandingData.GrpcMeteoriteLandingList);
+                await grpcClient.PostPayloadAsync(MeteoriteLandingData.GrpcMeteoriteLandingList);
             }
         }
     }
@@ -86,11 +155,11 @@ namespace RESTvsGRPC
     {
         public AllowNonOptimized()
         {
-            Add(JitOptimizationsValidator.DontFailOnError);
+            AddValidator(JitOptimizationsValidator.DontFailOnError);
 
-            Add(DefaultConfig.Instance.GetLoggers().ToArray());
-            Add(DefaultConfig.Instance.GetExporters().ToArray());
-            Add(DefaultConfig.Instance.GetColumnProviders().ToArray());
+            // AddValidator(DefaultConfig.Instance.GetLoggers().Select(());
+            // AddValidator(DefaultConfig.Instance.GetExporters().ToArray());
+            // AddValidator(DefaultConfig.Instance.GetColumnProviders().ToArray());
         }
     }
 }
