@@ -11,7 +11,6 @@ namespace RESTvsGRPC
     {
         private readonly Channel channel;
         private readonly MeteoriteLandingsServiceClient client;
-        public MeteoriteLandingDataSize Size { get; set; } = MeteoriteLandingDataSize.Medium;
 
         public GRPCClient()
         {
@@ -40,7 +39,7 @@ namespace RESTvsGRPC
             return meteoriteLandings;
         }
 
-        public async Task<IList<MeteoriteLanding>> GetPayloadAsListAsync()
+        public async Task<IList<MeteoriteLanding>> GetPayloadAsListAsync(MeteoriteLandingDataSize Size)
         {
             return (
                 await client.GetLargePayloadAsListAsync(

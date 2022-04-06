@@ -12,9 +12,9 @@ namespace RESTvsGRPC
     [HtmlExporter]
     public class BenchmarkHarness
     {
-        [Params(200)]
+        [Params(1)]
         public int IterationCountGet;
-        [Params(20)]
+        [Params(1)]
         public int IterationCountPost;
 
 
@@ -24,37 +24,34 @@ namespace RESTvsGRPC
         [Benchmark]
         public async Task RestGetSmallPayloadAsync()
         {
-            restClient.Size = MeteoriteLandingDataSize.Small;
             for (int i = 0; i < IterationCountGet; i++)
             {
-                await restClient.GetPayloadAsync();
+                await restClient.GetPayloadAsync(MeteoriteLandingDataSize.Small);
             }
         }
         
         [Benchmark]
         public async Task RestGetMediumPayloadAsync()
         {
-            restClient.Size = MeteoriteLandingDataSize.Medium;
             for (int i = 0; i < IterationCountGet; i++)
             {
-                await restClient.GetPayloadAsync();
+                await restClient.GetPayloadAsync(MeteoriteLandingDataSize.Medium);
             }
         }
 
         [Benchmark]
         public async Task RestGetLargePayloadAsync()
         {
-            restClient.Size = MeteoriteLandingDataSize.Large;
             for (int i = 0; i < IterationCountGet; i++)
             {
-                await restClient.GetPayloadAsync();
+                await restClient.GetPayloadAsync(MeteoriteLandingDataSize.Large);
             }
         }
         
         [Benchmark]
         public async Task RestPostSmallPayloadAsync()
         {
-            restClient.Size = MeteoriteLandingDataSize.Small;
+            MeteoriteLandingData.Size = MeteoriteLandingDataSize.Small;
             for (int i = 0; i < IterationCountPost; i++)
             {
                 await restClient.PostPayloadAsync(MeteoriteLandingData.RestMeteoriteLandings);
@@ -64,7 +61,7 @@ namespace RESTvsGRPC
         [Benchmark]
         public async Task RestPostMediumPayloadAsync()
         {
-            restClient.Size = MeteoriteLandingDataSize.Medium;
+            MeteoriteLandingData.Size = MeteoriteLandingDataSize.Medium;
             for (int i = 0; i < IterationCountPost; i++)
             {
                 await restClient.PostPayloadAsync(MeteoriteLandingData.RestMeteoriteLandings);
@@ -74,7 +71,7 @@ namespace RESTvsGRPC
         [Benchmark]
         public async Task RestPostLargePayloadAsync()
         {
-            restClient.Size = MeteoriteLandingDataSize.Large;
+            MeteoriteLandingData.Size = MeteoriteLandingDataSize.Large;
             for (int i = 0; i < IterationCountPost; i++)
             {
                 await restClient.PostPayloadAsync(MeteoriteLandingData.RestMeteoriteLandings);
@@ -93,37 +90,34 @@ namespace RESTvsGRPC
         [Benchmark]
         public async Task GrpcGetSmallPayloadAsListAsync()
         {
-            grpcClient.Size = MeteoriteLandingDataSize.Small;
             for (int i = 0; i < IterationCountGet; i++)
             {
-                await grpcClient.GetPayloadAsListAsync();
+                await grpcClient.GetPayloadAsListAsync(MeteoriteLandingDataSize.Small);
             }
         }
 
         [Benchmark]
         public async Task GrpcGetMediumPayloadAsListAsync()
         {
-            grpcClient.Size = MeteoriteLandingDataSize.Medium;
             for (int i = 0; i < IterationCountGet; i++)
             {
-                await grpcClient.GetPayloadAsListAsync();
+                await grpcClient.GetPayloadAsListAsync(MeteoriteLandingDataSize.Medium);
             }
         }
 
         [Benchmark]
         public async Task GrpcGetLargePayloadAsListAsync()
         {
-            grpcClient.Size = MeteoriteLandingDataSize.Large;
             for (int i = 0; i < IterationCountGet; i++)
             {
-                await grpcClient.GetPayloadAsListAsync();
+                await grpcClient.GetPayloadAsListAsync(MeteoriteLandingDataSize.Large);
             }
         }
 
         [Benchmark]
         public async Task GrpcPostSmallPayloadAsync()
         {
-            grpcClient.Size = MeteoriteLandingDataSize.Small;
+            MeteoriteLandingData.Size = MeteoriteLandingDataSize.Small;
             for (int i = 0; i < IterationCountPost; i++)
             {
                 await grpcClient.PostPayloadAsync(MeteoriteLandingData.GrpcMeteoriteLandingList);
@@ -133,7 +127,7 @@ namespace RESTvsGRPC
         [Benchmark]
         public async Task GrpcPostMediumPayloadAsync()
         {
-            grpcClient.Size = MeteoriteLandingDataSize.Medium;
+            MeteoriteLandingData.Size = MeteoriteLandingDataSize.Medium;
             for (int i = 0; i < IterationCountPost; i++)
             {
                 await grpcClient.PostPayloadAsync(MeteoriteLandingData.GrpcMeteoriteLandingList);
@@ -143,7 +137,7 @@ namespace RESTvsGRPC
         [Benchmark]
         public async Task GrpcPostLargePayloadAsync()
         {
-            grpcClient.Size = MeteoriteLandingDataSize.Large;
+            MeteoriteLandingData.Size = MeteoriteLandingDataSize.Large;
             for (int i = 0; i < IterationCountPost; i++)
             {
                 await grpcClient.PostPayloadAsync(MeteoriteLandingData.GrpcMeteoriteLandingList);

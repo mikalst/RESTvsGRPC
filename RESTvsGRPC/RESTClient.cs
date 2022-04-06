@@ -1,6 +1,5 @@
 ﻿using ModelLibrary.Data;
 using ModelLibrary.REST;
-using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Net.Http.Headers;
@@ -11,32 +10,26 @@ namespace RESTvsGRPC
 {
     public class RESTClient
     {
-        private static readonly HttpClient client = new HttpClient(
-            new HttpClientHandler() 
-            {
-                AllowAutoRedirect = false
-            });
+        private readonly HttpClient client;
 
-        public MeteoriteLandingDataSize Size { get; set; } = MeteoriteLandingDataSize.Medium;
-
-        public async Task<List<MeteoriteLanding>> GetPayloadAsync()
+        public RESTClient()
         {
+            client = new HttpClient();
             client.DefaultRequestHeaders.Accept.Clear();
             client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+        }
 
+        public async Task<List<MeteoriteLanding>> GetPayloadAsync(MeteoriteLandingDataSize Size)
+        {
             return await client.GetFromJsonAsync<List<MeteoriteLanding>>(
                 $"http://localhost:5000/api/MeteoriteLandings/Payload/{(int)Size}");
         }
 
         public async Task PostPayloadAsync(List<MeteoriteLanding> meteoriteLandings)
         {
-            client.DefaultRequestHeaders.Accept.Clear();
-            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-
             var response = await client.PostAsJsonAsync("http://localhost:5000/api/MeteoriteLandings/Payload", meteoriteLandings);
 
-            response.EnsureSuccessStatusCode();
-
+            // response.EnsureSuccessStatusCode();
         }
     }
 }

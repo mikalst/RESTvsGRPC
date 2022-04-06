@@ -29,6 +29,9 @@ namespace ModelLibrary.Data
                 if (value != _size)
                 {
                     meteoriteLandingsJson = null;
+                    restMeteoriteLandings = null;
+                    grpcMeteoriteLandings = null;
+                    grpcMeteoriteLandingList = null;
                     _size = value;
                 }
             }
